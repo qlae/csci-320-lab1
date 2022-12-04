@@ -2,16 +2,27 @@
 
 typedef enum{false, true} bool;
 typedef enum{SUCCESS=0, FAILURE=1} status;
+using namespace std;
 
-
-/*
- * readString - reads a line from a file given by
- * fileName and returns it as a c-string.  The line
- * return is removed from the string.
- * 
- * fileName is c-string representing the file to read.
- * 
- */
+int main()
+{
+    int arr[] = {6,2,8,7,3,10,9,4,5,1};
+    int i.n = 10;
+    for (int gap = 1; gap <n; gap=pow(2,gap)+1)
+    {
+        for (int i = gap; i < n; i++)
+        {
+            int temp = arr[i];
+    int j;
+            for (j = i; j>= gap && arr[] - gap] > temp; j-= gap)
+                arr[j] = arr[] - gap];
+            arr[j] = temp;
+        }
+    }
+    cout << "Sorted array:" <<endl;
+for (i=0; i<n; i++)
+    cout << arr[i] <<" ";
+return 0;
 char* readString(char* fileName);
 
 /*
