@@ -1,44 +1,63 @@
 #include <stdio.h>
-#include <stdlib.h> 
-#include <string.h>  
+#include <stdlib.h>
+#include <string.h>
 
-void mysteryExplode (const char *string, char **dest, int *length);
-void mysteryEmplode (char **string, const char *dest, int length) ;
+#define MAX_LINE_LENGTH 1024
 
-int main()
-{
-
-int length;
-
-char *string1 = (char *)malloc(50* sizeof(char));
-char *dest1 = (char *)malloc(50* sizeof(char));
-
-scanf("%s" , string1);
-mysteryExplode(string1, &dest1, &length) ;
-printf("%s ", dest1);
-/*mysteryImplode(&string, dest, length) ;
-printf ("%s ", string) ;
-*/
-free(string1) ;
-free(dest1);
-
-return 0;
-}
-
-void mysteryExplode (const char *string, char
-**dest, int *length)
-{
-int i, j, k;
-int stringLength = strlen(string) ;
-*length = stringLength * 2 - 1;
-
-for (i = 0, j = 0; i < stringLength; i++)
-{
-    for(int k=0; k<=i;k++)
-    {
-        (*dest) [j] = string[k];
-        j++;
+char* readString(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        fprintf(stderr, "Can't find %s\n", filename);
+        return NULL;
     }
+
+    char* string = (char*)malloc(MAX_LINE_LENGTH);
+    if (!string || !fgets(string, MAX_LINE_LENGTH, file)) {
+        fprintf(stderr, "Error reading from %s\n", filename);
+        free(string);
+        string = NULL;
+    }
+
+    fclose(file);
+    return string;
 }
-(*dest)[j] = '\0';
+
+char* mysteryExplode(const char* str) {
+    int len = strlen(str);
+    int explodedLength = len * (len + 1) / 2 + 1;
+    char* explodedString = (char*)malloc(explodedLength);
+
+    if (!explodedString) {
+        return NULL;
+    }
+
+    int r = 0;
+
+    for (int d = 0; d < len; d++) {
+        for (int s = 0; s <= d; s++) {
+            explodedString[r++] = str[s];
+        }
+    }
+
+    explodedString[r] = '\0';
+    return explodedString;
+}
+
+int main() {
+    const char* filename = "example.txt";
+    char* content = readString(filename);
+
+    if (content) {
+        printf("Read from %s: %s\n", filename, content);
+
+        char* exploded = mysteryExplode(content);
+        if (exploded) {
+            printf("Exploded string: %s\n", exploded);
+            free(exploded);
+        }
+
+        free(content);
+    }
+
+    return 0;
 }
